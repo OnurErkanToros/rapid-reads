@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>RapidReads Favicon Generator</title>
+</head>
+<body>
+    <h1>RapidReads Favicon Generator 📚</h1>
+    <p>Bu sayfa otomatik olarak favicon'u oluşturacak.</p>
+    
+    <canvas id="canvas" width="128" height="128" style="border: 1px solid #ccc;"></canvas>
+    <br><br>
+    <button onclick="downloadFavicon()">Favicon'u İndir (.ico formatında)</button>
+    
+    <script>
+        // Canvas'ı al
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Arka plan (Mavi-Mor gradient)
+        const gradient = ctx.createLinearGradient(0, 0, 128, 128);
+        gradient.addColorStop(0, '#3B82F6'); // Mavi
+        gradient.addColorStop(1, '#8B5CF6'); // Mor
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 128, 128);
+        
+        // Kitap emojisi veya "R" harfi
+        ctx.font = 'bold 80px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Beyaz gölge efekti
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        
+        // Beyaz metin
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillText('📚', 64, 64); // Kitap emojisi
+        
+        // Eğer emoji render edilmezse "RR" harfleri
+        // ctx.fillText('RR', 64, 64);
+        
+        function downloadFavicon() {
+            // Canvas'ı PNG olarak indir (ICO dönüşümü için online araç kullanılabilir)
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'favicon.png';
+                a.click();
+                
+                alert('PNG indirildi! Şimdi bunu favicon.io veya convertio.co sitesinde .ico formatına çevirebilirsiniz.');
+            });
+        }
+        
+        console.log('Favicon oluşturuldu! İndirmek için butona tıklayın.');
+    </script>
+</body>
+</html>
+
