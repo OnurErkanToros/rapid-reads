@@ -1,0 +1,73 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Geri Butonu -->
+    <button (click)="goBack()"
+            class="mb-4 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-gray-700 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out transform hover:scale-105">
+      <fa-icon [icon]="iconArrowLeft" class="mr-1"></fa-icon>
+      Geri
+    </button>
+    
+    <!-- Başlık -->
+    <h1 class="text-3xl font-bold mb-6 dark:text-white">İstatistiklerim</h1>
+    
+    <!-- Yükleme Göstergesi -->
+    @if (isLoading) {
+      <p class="text-gray-800 dark:text-gray-300">İstatistikler hesaplanıyor...</p>
+    }
+    
+    <!-- İstatistikler -->
+    @if (!isLoading) {
+      <!-- Seans Yok Mesajı -->
+      @if (totalSessions === 0) {
+        <p class="text-gray-800 dark:text-gray-300">
+          Henüz hiç okuma seansı kaydetmediniz. Okumaya başlayın!
+        </p>
+      }
+      
+      <!-- İstatistik Kartları -->
+      @if (totalSessions > 0) {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Kart 1: Ortalama Hız -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
+              Ortalama Hız
+            </h3>
+            <p class="mt-1 text-3xl font-semibold dark:text-white">
+              {{ averageWpm | number:'1.0-0' }} WPM
+            </p>
+          </div>
+          
+          <!-- Kart 2: Toplam Süre -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
+              Toplam Süre
+            </h3>
+            <p class="mt-1 text-3xl font-semibold dark:text-white">
+              {{ totalMinutesRead | number:'1.0-0' }} Dakika
+            </p>
+          </div>
+          
+          <!-- Kart 3: Toplam Kelime -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
+              Toplam Kelime
+            </h3>
+            <p class="mt-1 text-3xl font-semibold dark:text-white">
+              {{ totalWordsRead | number:'1.0-0' }} Kelime
+            </p>
+          </div>
+          
+          <!-- Kart 4: Toplam Seans -->
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
+              Toplam Seans
+            </h3>
+            <p class="mt-1 text-3xl font-semibold dark:text-white">
+              {{ totalSessions }} Oturum
+            </p>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

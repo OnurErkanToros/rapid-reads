@@ -1,0 +1,96 @@
+<div class="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
+  <!-- Üst Navigasyon -->
+  <div [ngClass]="{
+    'opacity-0 pointer-events-none': !isUiVisible,
+    'opacity-100': isUiVisible
+  }" 
+  class="transition-opacity duration-300 ease-in-out bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between">
+    <button 
+      (click)="goBack()" 
+      class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out transform hover:scale-105"
+    >
+      ← Geri
+    </button>
+    <a 
+      routerLink="/" 
+      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out transform hover:scale-105"
+    >
+      🏠 Kütüphaneye Dön
+    </a>
+  </div>
+
+  <!-- Kelime Gösterim Alanı -->
+  <div class="flex-1 flex items-center justify-center">
+    <div [style.font-size.px]="fontSize" class="font-serif leading-none tracking-wide text-gray-800 dark:text-white font-bold text-center px-4">
+      <span class="whitespace-pre">{{ chunkBeforeOrp }}</span><span class="text-orange-500 dark:text-orange-400">{{ chunkOrpChar }}</span><span class="whitespace-pre">{{ chunkAfterOrp }}</span>
+    </div>
+  </div>
+
+  <!-- Alt Kontrol Paneli -->
+  <div [ngClass]="{
+    'opacity-0 pointer-events-none': !isUiVisible, 
+    'opacity-100': isUiVisible 
+  }"
+  class="transition-opacity duration-300 ease-in-out bg-white dark:bg-gray-800 p-4 shadow-inner">
+    <div class="container mx-auto max-w-2xl space-y-4">
+      <!-- WPM Kontrolü -->
+      <div class="flex items-center justify-between">
+        <label class="text-sm text-gray-500 dark:text-gray-400 font-medium">Hız: {{ wpm }} WPM</label>
+        <input 
+          type="range" 
+          [(ngModel)]="wpm"
+          (ngModelChange)="onWpmChange()"
+          min="100" 
+          max="1500" 
+          step="25"
+          class="flex-1 mx-4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        />
+      </div>
+
+      <!-- Font Boyutu Kontrolü -->
+      <div class="flex items-center justify-between">
+        <label class="text-sm text-gray-500 dark:text-gray-400 font-medium">Font Boyutu: {{ fontSize }}px</label>
+        <input 
+          type="range" 
+          [(ngModel)]="fontSize"
+          (ngModelChange)="onFontSizeChange()"
+          min="24" 
+          max="144" 
+          step="2"
+          class="flex-1 mx-4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        />
+      </div>
+
+      <!-- Grup Boyutu Kontrolü -->
+      <div class="flex items-center justify-between">
+        <label class="text-sm text-gray-500 dark:text-gray-400 font-medium">Grup Boyutu: {{ chunkSize }} Kelime</label>
+        <input 
+          type="range" 
+          [(ngModel)]="chunkSize"
+          (ngModelChange)="onChunkSizeChange($event)"
+          min="1" 
+          max="3" 
+          step="1"
+          class="flex-1 mx-4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        />
+      </div>
+
+      <!-- Play/Pause Butonu -->
+      <div class="flex justify-center">
+        <button 
+          (click)="togglePlay()"
+          [title]="isPlaying ? 'Duraklat (Boşluk)' : 'Oynat (Boşluk)'"
+          class="btn bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white p-4 shadow-lg text-2xl"
+        >
+          <fa-icon *ngIf="!isPlaying" [icon]="iconPlay"></fa-icon>
+          <fa-icon *ngIf="isPlaying" [icon]="iconPause"></fa-icon>
+        </button>
+      </div>
+
+      <!-- İlerleme Göstergesi -->
+      <div class="text-center text-sm text-gray-500 dark:text-gray-400">
+        Grup {{ currentChunkIndex + 1 }} / {{ groupedWords.length }}
+      </div>
+    </div>
+  </div>
+</div>

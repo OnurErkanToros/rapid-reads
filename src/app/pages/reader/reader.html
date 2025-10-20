@@ -1,0 +1,35 @@
+<div *ngIf="book" class="container mx-auto px-4 py-8">
+  <!-- Geri Butonu -->
+  <button *ngIf="book" 
+          (click)="goBack()"
+          class="mb-4 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-gray-700 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out transform hover:scale-105">
+    <fa-icon [icon]="iconArrowLeft" class="mr-1"></fa-icon>
+    Geri
+  </button>
+  
+  <!-- Kitap Başlığı -->
+  <h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-6">{{ book.title }}</h1>
+  
+  <!-- Kaldığınız Yerden Devam Edin Butonu -->
+  <button 
+    *ngIf="book.progress"
+    [routerLink]="['/player', book.id, encodeChapterHref(book.progress.chapterHref)]"
+    class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-150 ease-in-out transform hover:scale-105 mb-8"
+  >
+    📖 Kaldığınız Yerden Devam Edin
+  </button>
+  
+  <!-- İçindekiler Başlığı -->
+  <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">İçindekiler</h2>
+  
+  <!-- Bölüm Listesi -->
+  <div class="space-y-2">
+    <a 
+      *ngFor="let chapter of chapters"
+      [routerLink]="['/player', book.id, encodeChapterHref(chapter.href)]"
+      class="block p-4 bg-white dark:bg-gray-800 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 dark:border-gray-700 cursor-pointer"
+    >
+      <span class="text-gray-800 dark:text-blue-400 font-medium hover:dark:text-blue-300">{{ chapter.label }}</span>
+    </a>
+  </div>
+</div>

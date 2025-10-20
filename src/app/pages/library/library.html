@@ -1,0 +1,81 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Üst Kısım: Başlık, Arama ve Butonlar -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Kitaplığım</h1>
+    
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="filterBooks()"
+      placeholder="🔍 Kütüphanede ara..."
+      class="input md:w-1/3"
+    />
+    
+    <div class="flex gap-4">
+      <button 
+        (click)="fileInput.click()" 
+        class="btn-primary"
+      >
+        📚 Kitap Yükle
+      </button>
+      <button 
+        (click)="showPasteModal = true" 
+        class="btn-success"
+      >
+        📝 Metin Yapıştır
+      </button>
+    </div>
+  </div>
+  
+  <input 
+    type="file" 
+    #fileInput 
+    (change)="onFileSelected($event)" 
+    accept=".epub" 
+    class="hidden"
+  />
+  
+  <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+    @for (book of filteredBooks; track book.id) {
+      <app-book-card [book]="book" (bookDeleted)="askForDelete(book)"></app-book-card>
+    }
+  </div>
+</div>
+
+<!-- Metin Yapıştır Modal -->
+@if (showPasteModal) {
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl max-w-2xl w-full mx-4">
+    <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">📝 Metin Yapıştır</h3>
+    
+    <textarea 
+      #pasteArea
+      class="w-full h-64 p-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 resize-none bg-white dark:bg-gray-700 dark:text-white"
+      placeholder="Okumak istediğiniz metni buraya yapıştırın..."
+    ></textarea>
+    
+    <div class="flex gap-4 mt-4 justify-end">
+      <button 
+        (click)="showPasteModal = false"
+        class="btn-ghost"
+      >
+        ❌ İptal
+      </button>
+      <button 
+        (click)="readPastedText(pasteArea.value)"
+        class="btn-success"
+      >
+        ▶ Oku
+      </button>
+    </div>
+  </div>
+</div>
+}
+
+<!-- Silme Onay Modalı -->
+<app-alert-modal
+  *ngIf="bookToDelete"
+  [message]="'\'' + bookToDelete.title + '\' adlı kitabı kalıcı olarak silmek istediğinizden emin misiniz?'"
+  (onConfirm)="confirmDelete()"
+  (onCancel)="bookToDelete = null"
+></app-alert-modal>

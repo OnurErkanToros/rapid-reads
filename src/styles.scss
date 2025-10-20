@@ -1,1 +1,102 @@
-/* You can add global styles to this file, and also import other style files */
+@use "tailwindcss";
+
+@variant dark (html.dark &);
+
+@layer base {
+  /* Tüm interaktif elemanlar için varsayılan odak stilini tanımla */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-offset-2 ring-blue-500 dark:ring-offset-gray-800;
+    /* Outline'ı kaldırıp yerine mavi bir halka ekle */
+    /* Dark modda halka offset rengini ayarla */
+  }
+}
+
+body {
+  @apply font-sans text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-900;
+  /* Varsayılan font sans-serif olsun */
+  /* Varsayılan metin ve arka plan renklerini de burada tanımlayalım */
+}
+
+@layer components {
+  /* Buton Temeli (Genel Stil) */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-gray-800 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Birincil Buton (Mavi - Örn: Kitap Yükle) */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-gray-800 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 py-2 px-6 shadow-md;
+  }
+
+  /* Tehlike Butonu (Kırmızı - Örn: Modal Sil) */
+  .btn-danger {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-gray-800 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 py-2 px-6 shadow-md;
+  }
+
+  /* Başarı Butonu (Yeşil - Örn: Metin Yapıştır) */
+  .btn-success {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-gray-800 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-green-600 text-white hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 py-2 px-6 shadow-md;
+  }
+
+  /* Hayalet Buton (Arka Plansız - Örn: İptal, İkon Butonlar) */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-gray-800 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700 px-3 py-1;
+  }
+
+  /* Hayalet Buton - Tehlike Rengi (Örn: Kart Silme İkonu) */
+  .btn-ghost-danger {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition duration-150 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-offset-gray-800 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply text-red-600 dark:text-red-500 hover:bg-red-100 dark:hover:bg-red-900/50 px-3 py-1;
+  }
+
+  /* Input Alanı (Örn: Arama) */
+  .input {
+    @apply w-full p-3 border rounded-lg bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white;
+  }
+
+  /* Kart Temeli (Örn: BookCard, StatsCard) */
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
+  }
+}
+
+/* Görev 10.15: Özel Animasyonlar */
+
+/* Toast Giriş Animasyonu */
+@keyframes toast-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Modal Giriş Animasyonu */
+@keyframes modal-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Animasyonları Tailwind Utility Sınıfları Olarak Ekleme */
+@layer utilities {
+  .animate-toast-in {
+    animation: toast-in 0.3s ease-out forwards;
+  }
+
+  .animate-modal-in {
+    animation: modal-in 0.2s ease-out forwards;
+  }
+}
